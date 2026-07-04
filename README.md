@@ -123,7 +123,7 @@ Do trình duyệt Chrome thắt chặt chính sách CORS khi mở trực tiếp 
 
 ## 7. Hướng dẫn Điều khiển
 
-* **Di chuyển:** Sử dụng cụm phím mũi tên (**Arrow Keys**) hoặc tổ hợp phím **WASD** để di chuyển nhân vật tự do 360 độ.
+* **Di chuyển:** Sử dụng tổ hợp phím **WASD** để di chuyển nhân vật tự do 360 độ.
 * **Chạy nhanh (Dash):** Giữ phím **Shift** khi đang di chuyển (tiêu hao thanh thể lực SP).
 * **Tấn công thường / Bắn súng:** Nhấn **`Chuột trái`** (tự động đổi cơ chế chém cận chiến/bắn đạn theo trang bị hiện tại).
 * **Tương tác (Nói chuyện, Nhặt đồ, Mở cửa):** Đứng gần mục tiêu và nhấn phím **Space** hoặc **Enter**.
