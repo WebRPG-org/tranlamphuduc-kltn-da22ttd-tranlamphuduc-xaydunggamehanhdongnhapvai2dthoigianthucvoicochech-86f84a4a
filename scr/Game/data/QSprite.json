@@ -3508,5 +3508,47 @@
         ]
       }
     }
+  },
+  "bossdie1": {
+    "name": "bossdie1",
+    "cols": 7,
+    "rows": 8,
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "sampleImg": "D:\\khoaluan\\scr\\Game\\img\\characters\\%bossdie1-1.png",
+    "poses": {
+      "idle2": {
+        "name": "idle2",
+        "speed": 10,
+        "adjust": false,
+        "pattern": [
+          1
+        ]
+      },
+      "idle4": {
+        "name": "idle4",
+        "speed": 10,
+        "adjust": false,
+        "pattern": [
+          1
+        ]
+      },
+      "idle6": {
+        "name": "idle6",
+        "speed": 10,
+        "adjust": false,
+        "pattern": [
+          1
+        ]
+      },
+      "idle8": {
+        "name": "idle8",
+        "speed": 10,
+        "adjust": false,
+        "pattern": [
+          1
+        ]
+      }
+    }
   }
 }

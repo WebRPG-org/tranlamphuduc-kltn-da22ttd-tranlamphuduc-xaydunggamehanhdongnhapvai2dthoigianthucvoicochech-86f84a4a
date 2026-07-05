@@ -272,6 +272,30 @@
         };
     };
     
+    // Register events with <dailyNPC> when map loads
+    Game_System.prototype.registerDailyNPCEvents = function(mapId) {
+        if (!this._dailyNPCEvents) {
+            this._dailyNPCEvents = {};
+        }
+        
+        this._dailyNPCEvents[mapId] = [];
+        
+        var events = $gameMap.events();
+        for (var i = 0; i < events.length; i++) {
+            var event = events[i];
+            if (event && event.event()) {
+                var note = event.event().note || '';
+                if (note.match(/<dailyNPC>/i)) {
+                    this._dailyNPCEvents[mapId].push(event.eventId());
+                }
+            }
+        }
+        
+        if (this._dailyNPCEvents[mapId].length > 0) {
+            console.log('[DayNightCycle] Registered', this._dailyNPCEvents[mapId].length, 'daily NPC events on map', mapId);
+        }
+    };
+    
     // ========================
     // Game_Event - Set Self Switch D and save position
     // ========================
@@ -477,22 +501,28 @@
             $gameSystem._dayNightData.itemPickupCount = {};
         }
         
-        // Reset daily NPC Self Switch A on current map
-        var currentMapId = $gameMap.mapId();
-        var events = $gameMap.events();
+        // Reset daily NPCs ACROSS ALL MAPS (scan registered dailyNPC events)
+        if (!$gameSystem._dailyNPCEvents) {
+            $gameSystem._dailyNPCEvents = {};
+        }
         
-        for (var i = 0; i < events.length; i++) {
-            var event = events[i];
-            if (!event) continue;
-            
-            var note = event.event().note || '';
-            
-            // Reset daily NPC
-            if (note.match(/<dailyNPC>/i)) {
-                var key = [currentMapId, event.eventId(), 'A'];
+        var npcResetCount = 0;
+        for (var mapId in $gameSystem._dailyNPCEvents) {
+            var eventIds = $gameSystem._dailyNPCEvents[mapId];
+            for (var i = 0; i < eventIds.length; i++) {
+                var eventId = eventIds[i];
+                
+                // Reset Self Switch A for daily NPC
+                var key = [parseInt(mapId), eventId, 'A'];
                 $gameSelfSwitches.setValue(key, false);
-                console.log('Reset dailyNPC Self Switch A:', event.eventId());
+                
+                npcResetCount++;
+                console.log('Reset dailyNPC Self Switch A: Map', mapId, 'Event', eventId);
             }
+        }
+        
+        if (npcResetCount > 0) {
+            console.log('[DayNightCycle] Reset', npcResetCount, 'daily NPCs across all maps');
         }
         
         // Scan all self switches for Self Switch D (zombie corpses)
@@ -671,6 +701,19 @@
         }
         
         _Game_Event_start.call(this);
+    };
+    
+    // ========================
+    // Game_Map Setup - Register Daily NPCs
+    // ========================
+    var _Game_Map_setup = Game_Map.prototype.setup;
+    Game_Map.prototype.setup = function(mapId) {
+        _Game_Map_setup.call(this, mapId);
+        
+        // Register events with <dailyNPC> on this map
+        if ($gameSystem) {
+            $gameSystem.registerDailyNPCEvents(mapId);
+        }
     };
     
     // ========================
